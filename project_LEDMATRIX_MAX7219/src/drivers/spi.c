@@ -36,7 +36,7 @@ void SpiInit(void){
 	// SPI Master Mode
 	SPI1->CR1 |= SPI_CR1_MSTR;
 	// Software slave mangement enabled (internal slave select NSS disabled)
-	SPI1->CR1 |= SPI_CR1_SSM;
+	SPI1->CR1 |= SPI_CR1_SSM | SPI_CR1_SSI;
 	// TODO: Configure CR2 register
 	
 	// Data frame size 16-bit

@@ -2,7 +2,7 @@
 #define BOARD_BSP_H
 
 #include <stdint.h>
-
+#include "spi.h"
 /* system clock tick [Hz] */
 #define BSP_TICKS_PER_SEC 100U
 

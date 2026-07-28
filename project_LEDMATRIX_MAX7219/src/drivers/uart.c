@@ -21,7 +21,10 @@ void UART2_Init(void) {
 		GPIOA->AFR[0] &= ~GPIO_AFRL_AFSEL3;
 		GPIOA->AFR[0] |= GPIO_AFRL_AFSEL3_0;
 
-		/* set baud rate for UART2 using UART2 BRR register */
+		// set baud rate for UART1 using UART2 BRR register
+		// upon checking RCC register in the watch window (RCC_TypeDef*)0x40021000
+		// the UART2 is clocked using HSISYS (12 MHz) -> APB (no division) 
+		// from the data sheet with 16 bit oversamlping BRR = ClkSrc / baudrate 
 		USART2->BRR = 0x4E2UL;
 
 		/* configure CR1 for oversampling rate, character size (8 bit), and enabling transmit, no parity		8-N-1 */

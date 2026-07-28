@@ -53,6 +53,7 @@ int main(void) {
                 break;
 
 					case BUTTON_EVENT:
+						SpiSendFrame(0x5555U);
 						UART2_PrintDma("Button Pressed\n\r");
                 main_state = IDLE;
                 break;

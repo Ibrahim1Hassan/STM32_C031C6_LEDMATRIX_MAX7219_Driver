@@ -26,7 +26,7 @@ void BSP_init(void) {
 		Button_InitB1();
 		UART2_Init();
 		SysTick_Init();
-
+		SpiInit();
 		__enable_irq();
 }
 

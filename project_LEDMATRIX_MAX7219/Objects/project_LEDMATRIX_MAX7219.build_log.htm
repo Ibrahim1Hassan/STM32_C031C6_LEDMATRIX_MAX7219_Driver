@@ -1,0 +1,63 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.43.1.0
+Copyright (C) 2025 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Ibrahim Hassan, Hochschule Anhalt, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.43.0.0
+Toolchain Path:  C:\Users\eghem\AppData\Local\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.24
+Assembler:       Armasm.exe V6.24
+Linker/Locator:  ArmLink.exe V6.24
+Library Manager: ArmAr.exe V6.24
+Hex Converter:   FromElf.exe V6.24
+CPU DLL:         SARMCM3.DLL V5.43.0.0
+Dialog DLL:      DARMCM1.DLL V1.19.6.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.3.1.0
+Dialog DLL:      TARMCM1.DLL V1.14.6.0
+ 
+<h2>Project:</h2>
+C:\Users\eghem\OneDrive\Desktop\Nucleo-c031c6\project_spi\STM32_C031C6_LEDMATRIX_MAX7219_Driver\project_LEDMATRIX_MAX7219\project_LEDMATRIX_MAX7219.uvprojx
+Project File Date:  07/28/2026
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.24', folder: 'C:\Users\eghem\AppData\Local\Keil_v5\ARM\ARMCLANG\Bin'
+Rebuild target 'debug'
+src/drivers/button.c(38): warning: variable 'button_int_ctr' set but not used [-Wunused-but-set-variable]
+   38 |         static uint16_t button_int_ctr;
+      |                         ^
+1 warning generated.
+compiling button.c...
+compiling bsp.c...
+compiling main.c...
+compiling systick.c...
+compiling system_stm32c0xx.c...
+src/drivers/uart.c(83): warning: variable 'wait_counter' set but not used [-Wunused-but-set-variable]
+   83 |                                 static uint32_t wait_counter;
+      |                                                 ^
+1 warning generated.
+compiling uart.c...
+assembling startup_stm32c031xx.s...
+linking...
+Program Size: Code=2888 RO-data=396 RW-data=60 ZI-data=2228  
+FromELF: creating hex file...
+".\Objects\project_LEDMATRIX_MAX7219.axf" - 0 Error(s), 2 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32C0xx_DFP.2.4.0.pack
+                Keil::STM32C0xx_DFP@2.4.0
+                STMicroelectronics STM32C0 Series Device Support
+
+<h2>Collection of Component include folders:</h2>
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

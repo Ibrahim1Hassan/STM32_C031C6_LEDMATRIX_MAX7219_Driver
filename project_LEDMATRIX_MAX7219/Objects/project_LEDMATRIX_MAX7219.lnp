@@ -1,0 +1,12 @@
+--cpu Cortex-M0+
+".\objects\main.o"
+".\objects\bsp.o"
+".\objects\button.o"
+".\objects\systick.o"
+".\objects\uart.o"
+".\objects\system_stm32c0xx.o"
+".\objects\startup_stm32c031xx.o"
+--strict --scatter ".\project_LEDMATRIX_MAX7219.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\project_LEDMATRIX_MAX7219.map" -o .\Objects\project_LEDMATRIX_MAX7219.axf

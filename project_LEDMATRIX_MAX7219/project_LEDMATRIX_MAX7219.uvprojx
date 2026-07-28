@@ -419,6 +419,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\drivers\uart.c</FilePath>
             </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\drivers\spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

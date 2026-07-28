@@ -1,64 +1,0 @@
-Dependencies for Project 'project_RTC_DS1307', Target 'debug': (DO NOT MODIFY !)
-CompilerVersion: 6240000::V6.24::ARMCLANG
-F (.\src\app\main.c)(0x6A679972)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0plus -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./include/app -I ./include/board -I ./include/drivers -I ../nucleo-c031c6 -I ../nucleo-c031c6/arm -I ../CMSIS/Include -I ../CMSIS -Wno-declaration-after-statement-D__UVISION_VERSION="543" -DSTM32C031xx-o ./objects/main.o -MMD)
-I (include\app\main.h)(0x6A6792FA)
-I (include\board\bsp.h)(0x6A497A77)
-I (include\drivers\uart.h)(0x6A678D2D)
-I (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)
-I (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)
-I (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)
-I (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)
-I (include\drivers\i2c_rtc.h)(0x6A67A4F6)
-F (.\src\board\bsp.c)(0x6A556912)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0plus -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./include/app -I ./include/board -I ./include/drivers -I ../nucleo-c031c6 -I ../nucleo-c031c6/arm -I ../CMSIS/Include -I ../CMSIS -Wno-declaration-after-statement-D__UVISION_VERSION="543" -DSTM32C031xx-o ./objects/bsp.o -MMD)
-I (include\board\bsp.h)(0x6A497A77)
-I (include\drivers\button.h)(0x6A497A77)
-I (include\drivers\systick.h)(0x6A4982E8)
-I (include\drivers\uart.h)(0x6A678D2D)
-I (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)
-I (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)
-I (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)
-I (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)
-I (include\drivers\i2c_rtc.h)(0x6A67A4F6)
-F (.\src\drivers\button.c)(0x6A679F55)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0plus -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./include/app -I ./include/board -I ./include/drivers -I ../nucleo-c031c6 -I ../nucleo-c031c6/arm -I ../CMSIS/Include -I ../CMSIS -Wno-declaration-after-statement-D__UVISION_VERSION="543" -DSTM32C031xx-o ./objects/button.o -MMD)
-I (include\drivers\button.h)(0x6A497A77)
-I (include\app\main.h)(0x6A6792FA)
-I (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)
-I (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)
-I (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)
-I (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)
-F (.\src\drivers\systick.c)(0x6A4984C8)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0plus -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./include/app -I ./include/board -I ./include/drivers -I ../nucleo-c031c6 -I ../nucleo-c031c6/arm -I ../CMSIS/Include -I ../CMSIS -Wno-declaration-after-statement-D__UVISION_VERSION="543" -DSTM32C031xx-o ./objects/systick.o -MMD)
-I (include\drivers\systick.h)(0x6A4982E8)
-I (include\app\main.h)(0x6A6792FA)
-I (include\board\bsp.h)(0x6A497A77)
-I (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)
-I (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)
-I (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)
-I (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)
-F (.\src\drivers\uart.c)(0x6A6799C9)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0plus -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./include/app -I ./include/board -I ./include/drivers -I ../nucleo-c031c6 -I ../nucleo-c031c6/arm -I ../CMSIS/Include -I ../CMSIS -Wno-declaration-after-statement-D__UVISION_VERSION="543" -DSTM32C031xx-o ./objects/uart.o -MMD)
-I (include\drivers\uart.h)(0x6A678D2D)
-I (include\app\main.h)(0x6A6792FA)
-I (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)
-I (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)
-I (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)
-I (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)
-I (include\drivers\i2c_rtc.h)(0x6A67A4F6)
-F (.\src\drivers\i2c_rtc.c)(0x6A67A009)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0plus -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./include/app -I ./include/board -I ./include/drivers -I ../nucleo-c031c6 -I ../nucleo-c031c6/arm -I ../CMSIS/Include -I ../CMSIS -Wno-declaration-after-statement-D__UVISION_VERSION="543" -DSTM32C031xx-o ./objects/i2c_rtc.o -MMD)
-I (include\drivers\i2c_rtc.h)(0x6A67A4F6)
-I (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)
-I (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)
-I (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)
-I (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)
-I (include\app\main.h)(0x6A6792FA)
-F (..\nucleo-c031c6\system_stm32c0xx.c)(0x69C0638B)(-xc -std=c11 --target=arm-arm-none-eabi -mcpu=cortex-m0plus -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Wall -Wextra -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ./include/app -I ./include/board -I ./include/drivers -I ../nucleo-c031c6 -I ../nucleo-c031c6/arm -I ../CMSIS/Include -I ../CMSIS -Wno-declaration-after-statement-D__UVISION_VERSION="543" -DSTM32C031xx-o ./objects/system_stm32c0xx.o -MMD)
-I (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)
-I (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)
-I (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)
-I (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)
-F (..\nucleo-c031c6\arm\startup_stm32c031xx.s)(0x6947050B)(--target=arm-arm-none-eabi -mcpu=cortex-m0plus -masm=auto  -Wa,armasm,--diag_suppress=A1950W -c-gdwarf-4 -Wa,armasm,--pd,"__EVAL SETA 1"-Wa,armasm,--pd,"__UVISION_VERSION SETA 543" -Wa,armasm,--pd,"STM32C031xx SETA 1" -Wa,armasm,--pd,"Stack_Size SETA 2048" -Wa,armasm,--pd,"Heap_Size SETA 0"-o ./objects/startup_stm32c031xx.o)
-F (..\nucleo-c031c6\stm32c0xx.h)(0x6947050B)()
-F (..\nucleo-c031c6\stm32c031xx.h)(0x6947050B)()
-F (..\nucleo-c031c6\system_stm32c0xx.h)(0x6947050B)()
-F (..\CMSIS\Include\cmsis_armclang.h)(0x6947050B)()
-F (..\CMSIS\Include\cmsis_compiler.h)(0x6947050B)()
-F (..\CMSIS\Include\cmsis_version.h)(0x6947050B)()
-F (..\CMSIS\Include\core_cm0plus.h)(0x6947050B)()

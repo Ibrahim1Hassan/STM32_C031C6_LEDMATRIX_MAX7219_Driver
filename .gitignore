@@ -50,3 +50,15 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+/project_LEDMATRIX_MAX7219/Objects/
+/project_LEDMATRIX_MAX7219/Listings/
+/project_LEDMATRIX_MAX7219/Objects/project_LEDMATRIX_MAX7219.build_log.htm
+/project_LEDMATRIX_MAX7219/Objects/project_LEDMATRIX_MAX7219.htm
+/project_LEDMATRIX_MAX7219/*.htm
+
+project_LEDMATRIX_MAX7219\Objects\project_LEDMATRIX_MAX7219.build_log.htm
+project_LEDMATRIX_MAX7219\Objects\project_LEDMATRIX_MAX7219.axf
+project_LEDMATRIX_MAX7219\Objects\project_LEDMATRIX_MAX7219.htm
+project_LEDMATRIX_MAX7219\project_LEDMATRIX_MAX7219.uvguix.eghem

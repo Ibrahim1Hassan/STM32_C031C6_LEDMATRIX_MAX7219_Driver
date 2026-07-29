@@ -2,12 +2,20 @@
 #include "stm32c0xx.h"
 #include <stdbool.h>
 #include "font8x8_basic.h"
-static bool PatternSwitch = 0;
+/* The flag used to switch between the two display patterns */
+static bool PatternSwitch = 1;
+/* Clears all 8 rows of the 8x8 LED matrix by writing 0x00 to each digit register. */
 static void SpiMax7219MatrixClear(void);
+/* Advances a single lit LED across the 8x8 matrix grid, one step per call. */
 static void SpiMax7219PatternMovingDot(void);
+/* Displays the next ASCII character (0-9, A-Z) from the font array in sequence. */
 static void SpiMax7219PatternShuffle(void);
+/* Reverses the bits of a byte to correct the physical hardware mirroring of the LED matrix module. */
 static uint8_t ReverseByte(uint8_t b);
+/*************************************************************************************/
 
+
+/* Initializes the STM32 SPI1 peripheral and associated GPIO pins. */
 void SpiInit(void){
 	// Enable SPI and GPIO ports using RCC
 	RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
@@ -54,6 +62,8 @@ void SpiInit(void){
 	GPIOA->BSRR = GPIO_BSRR_BS4;
 
 }
+
+/* Transmits a 16-bit data frame over SPI, actively managing the Chip Select (CS) pin. */
 void SpiSendFrame(uint16_t DataFrame){
 	// Wait till the BSY flag is cleared in SR register
 	while(SPI1->SR & SPI_SR_BSY){
@@ -80,15 +90,16 @@ void SpiSendFrame(uint16_t DataFrame){
 
 }
 
+/* Configures the MAX7219 operating modes and wakes the IC. */
 void SpiMax7219Init(void){
 	// --- MAX7219 Initialization Sequence ---
 
-	SpiSendFrame((0xFU << 8) | 0x1U); // Display test ON (forces all LEDs on at max brightness)
-	SpiSendFrame((0x9U << 8) | 0x0U); // Decode mode: No-decode for all digits (raw bitmask)
-	SpiSendFrame((0xBU << 8) | 0x7U); // Scan limit: Display all 8 digits (0 through 7)
-	SpiSendFrame((0xAU << 8) | 0x2U); // Intensity: 17/32 duty cycle (medium brightness)
-	SpiSendFrame((0xFU << 8) | 0x0U); // Display test OFF (return to normal operation)
-	SpiSendFrame((0xCU << 8) | 0x1U); // Shutdown register: 1 = Normal Operation (Wake up)
+	SpiSendFrame((0xFU << ADD_SHIFT) | 0x1U); // Display test ON (forces all LEDs on at max brightness)
+	SpiSendFrame((0x9U << ADD_SHIFT) | 0x0U); // Decode mode: No-decode for all digits (raw bitmask)
+	SpiSendFrame((0xBU << ADD_SHIFT) | 0x7U); // Scan limit: Display all 8 digits (0 through 7)
+	SpiSendFrame((0xAU << ADD_SHIFT) | 0x0U); // Intensity: 1/32 duty cycle (minimum brightness)
+	SpiSendFrame((0xFU << ADD_SHIFT) | 0x0U); // Display test OFF (return to normal operation)
+	SpiSendFrame((0xCU << ADD_SHIFT) | 0x1U); // Shutdown register: 1 = Normal Operation (Wake up)
 
 	// --- Clear Initial Data ---
 	
@@ -96,18 +107,16 @@ void SpiMax7219Init(void){
 	
 }
 
+/* Clears all 8 rows of the 8x8 LED matrix by writing 0x00 to each digit register. */
 static void SpiMax7219MatrixClear(void){
 	
 	// Loop through all 8 digits and clear them
 	for(uint8_t i = 1; i <= 8; i++){
-			SpiSendFrame(((uint16_t)i << 8) | 0x00U);
+			SpiSendFrame(((uint16_t)i << ADD_SHIFT) | 0x00U);
 	}
 }
 
-/**
- * @brief Advances a single lit LED across an 8x8 matrix.
- *        Only clears the previous digit when wrapping to a new column.
- */
+/* Executes one iteration of the currently active display pattern. */
 void SpiMax7219DrawPattern(void){
 	if(PatternSwitch == 0){
 		SpiMax7219PatternMovingDot();
@@ -118,6 +127,7 @@ void SpiMax7219DrawPattern(void){
 	}
 }
 
+/* Toggles between the available display patterns and clears the matrix for the new mode. */
 void SpiMax7219SwitchPattern(void){
 	
 	// Toggle the state
@@ -127,29 +137,32 @@ void SpiMax7219SwitchPattern(void){
 	SpiMax7219MatrixClear();
 }
 
+/* Displays the next ASCII character (0-9, A-Z) from the font array in sequence. */
 static void SpiMax7219PatternShuffle(void){
-	static uint16_t counter = 48;
+	static uint16_t counter = CHAR_ARRAY_BEGIN;
 
 	for (uint8_t row = 0; row < 8; row++) {
-			uint8_t address = row + 1; 
-			
-			// Fetch the data from the array
-			uint8_t row_data = font8x8_basic[counter][row];
-			
-			// Reverse the bits to fix the hardware mirror effect
-			row_data = ReverseByte(row_data); 
-			
-			// Send the fixed frame
-			SpiSendFrame((address << 8) | row_data);
+		uint8_t address = row + 1; 
+		
+		// Fetch the data from the array
+		uint8_t row_data = font8x8_basic[counter][row];
+		
+		// Reverse the bits to fix the hardware mirror effect
+		row_data = ReverseByte(row_data); 
+		
+		// Send the fixed frame
+		SpiSendFrame((address << ADD_SHIFT) | row_data);
 	}
 
-	if (counter == 90) {
-			counter = 48; 
-	} else {
-			counter++;
+	if (counter == CHAR_ARRAY_END) {
+		counter = CHAR_ARRAY_BEGIN; 
+	} 
+	else {
+		counter++;
 	}
 }
 
+/* Advances a single lit LED across the 8x8 matrix grid, one step per call. */
 static void SpiMax7219PatternMovingDot(void){
 	static uint8_t current_digit = 0; // Digits 0 to 7
 	static uint8_t current_bit   = 0; // Bit positions 0 to 7
@@ -161,14 +174,14 @@ static void SpiMax7219PatternMovingDot(void){
 		uint8_t prev_reg_address = prev_digit + 1;
 		
 		// Clear the LED row
-		SpiSendFrame(((uint16_t)prev_reg_address << 8) | 0x00U);
+		SpiSendFrame(((uint16_t)prev_reg_address << ADD_SHIFT) | 0x00U);
 	}
 
 	// Turn ON the active LED (automatically clears previous bits on the SAME digit)
 	uint8_t reg_address = current_digit + 1; 
 	uint8_t bitmask     = (1U << current_bit);
 
-	SpiSendFrame(((uint16_t)reg_address << 8) | bitmask);
+	SpiSendFrame(((uint16_t)reg_address << ADD_SHIFT) | bitmask);
 
 	// Advance to the next position for the NEXT press
 	current_bit++;

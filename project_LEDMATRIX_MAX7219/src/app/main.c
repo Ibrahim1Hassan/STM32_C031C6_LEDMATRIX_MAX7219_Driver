@@ -31,6 +31,7 @@ int main(void) {
             case TIMER_EVENT:
 							if (led_state == 0u) {
 									BSP_ledGreenOn();
+									// Iterate once in the drawing pattern Algo
 									SpiMax7219DrawPattern();
 									led_state = 1u;
 									UART2_PrintDma("LED Green ON\n\r");
@@ -54,6 +55,7 @@ int main(void) {
 						break;
 
 					case BUTTON_EVENT:
+						// Switch the displayed pattern
 						SpiMax7219SwitchPattern();
 						UART2_PrintDma("Button Pressed\n\r");
 						main_state = IDLE;

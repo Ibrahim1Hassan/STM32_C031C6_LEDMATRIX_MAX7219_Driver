@@ -25,56 +25,39 @@ int main(void) {
 				static bool led_state = 0u;
         switch (main_state) {
             case INITIAL:
-                main_state = IDLE;
-                break;
+							main_state = IDLE;
+							break;
 
             case TIMER_EVENT:
-						if (led_state == 0u) {
-								BSP_ledGreenOn();
-								led_state = 1u;
-								UART2_PrintDma("LED Green ON\n\r");
-						}
-						else {
-								BSP_ledGreenOff();
-								led_state = 0u;
-								UART2_PrintDma("LED Green OFF\n\r");
-						}
-						main_state = IDLE;
-                break;
+							if (led_state == 0u) {
+									BSP_ledGreenOn();
+									SpiMax7219DrawPattern();
+									led_state = 1u;
+									UART2_PrintDma("LED Green ON\n\r");
+							}
+							else {
+									BSP_ledGreenOff();
+									led_state = 0u;
+									UART2_PrintDma("LED Green OFF\n\r");
+							}
+							main_state = IDLE;
+							break;
 
 					case UART_EVENT:
 						UART2_PrintDma(input_string);
-                main_state = IDLE;
-                break;
+						main_state = IDLE;
+						break;
 
 					case UART_ERROR_EVENT:
 						UART2_PrintDma("Please Enter a maximum of 30 characters\n\r");
-                main_state = IDLE;
-                break;
+						main_state = IDLE;
+						break;
 
 					case BUTTON_EVENT:
-						// --- MAX7219 Initialization Sequence ---
-
-						SpiSendFrame((0xFU << 8) | 0x1U); // Display test ON (forces all LEDs on at max brightness)
-						SpiSendFrame((0x9U << 8) | 0x0U); // Decode mode: No-decode for all digits (raw bitmask)
-						SpiSendFrame((0xBU << 8) | 0x7U); // Scan limit: Display all 8 digits (0 through 7)
-						SpiSendFrame((0xAU << 8) | 0x2U); // Intensity: 17/32 duty cycle (medium brightness)
-						SpiSendFrame((0xFU << 8) | 0x0U); // Display test OFF (return to normal operation)
-						SpiSendFrame((0xCU << 8) | 0x1U); // Shutdown register: 1 = Normal Operation (Wake up)
-
-						// --- Clear or Set Initial Data ---
-
-						SpiSendFrame((0x1U << 8) | 0x55U); // Set digit 0 (Writes 0x0F to the segment register)
-						SpiSendFrame((0x2U << 8) | 0xAAU); // Set digit 1
-						SpiSendFrame((0x3U << 8) | 0x55U); // Set digit 2
-						SpiSendFrame((0x4U << 8) | 0xAAU); // Set digit 3
-						SpiSendFrame((0x5U << 8) | 0x55U); // Set digit 4
-						SpiSendFrame((0x6U << 8) | 0xAAU); // Set digit 5
-						SpiSendFrame((0x7U << 8) | 0x55U); // Set digit 6
-						SpiSendFrame((0x8U << 8) | 0xAAU); // Set digit 7
+						SpiMax7219DrawPattern();
 						UART2_PrintDma("Button Pressed\n\r");
-                main_state = IDLE;
-                break;
+						main_state = IDLE;
+						break;
 
 					case IDLE:
 						if (event_signal == UART) {
@@ -99,10 +82,10 @@ int main(void) {
 						break;
 
             default:
-						while (1) {
-								/* ERROR */
-						}
-                break;
+							while (1) {
+									/* ERROR */
+							}
+							break;
         }
 
 				__enable_irq();

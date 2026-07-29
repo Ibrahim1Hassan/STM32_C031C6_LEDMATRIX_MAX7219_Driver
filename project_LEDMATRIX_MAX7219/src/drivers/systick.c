@@ -10,7 +10,7 @@ void SysTick_Handler(void) {
     static uint32_t start = 0;
 		++l_tickCtr;
 		/* timer signal */
-		if ((l_tickCtr - start) > BSP_TICKS_PER_SEC * 3U / 4U) {
+		if ((l_tickCtr - start) > BSP_TICKS_PER_SEC / 8U) {
 				start = l_tickCtr;
 				event_signal = TIMER;
     }

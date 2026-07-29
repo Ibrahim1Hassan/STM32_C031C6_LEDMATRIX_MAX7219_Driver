@@ -27,6 +27,7 @@ void BSP_init(void) {
 		UART2_Init();
 		SysTick_Init();
 		SpiInit();
+		SpiMax7219Init();
 		__enable_irq();
 }
 

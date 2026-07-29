@@ -7,6 +7,7 @@ void SpiInit(void);
 void SpiSendFrame(uint16_t DataFrame);
 void SpiMax7219Init(void);
 void SpiMax7219DrawPattern(void);
+void SpiMax7219SwitchPattern(void);
 
 
 #endif // DRIVERS_SPI_H

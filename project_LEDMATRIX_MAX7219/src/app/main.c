@@ -54,7 +54,7 @@ int main(void) {
 						break;
 
 					case BUTTON_EVENT:
-						SpiMax7219DrawPattern();
+						SpiMax7219SwitchPattern();
 						UART2_PrintDma("Button Pressed\n\r");
 						main_state = IDLE;
 						break;

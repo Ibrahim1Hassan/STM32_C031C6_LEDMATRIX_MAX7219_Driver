@@ -1,12 +1,18 @@
 #include "spi.h"
 #include "stm32c0xx.h"
-
+#include <stdbool.h>
+#include "font8x8_basic.h"
+static bool PatternSwitch = 0;
+static void SpiMax7219MatrixClear(void);
+static void SpiMax7219PatternMovingDot(void);
+static void SpiMax7219PatternShuffle(void);
+static uint8_t ReverseByte(uint8_t b);
 
 void SpiInit(void){
-	// TODO: Enable SPI and GPIO ports using RCC
+	// Enable SPI and GPIO ports using RCC
 	RCC->IOPENR |= RCC_IOPENR_GPIOAEN;
 	RCC->APBENR2 |= RCC_APBENR2_SPI1EN;
-	// TODO: Configure GPIOs for MOSI PA7, MISO(not needed), SCK PA1, CS PA4
+	// Configure GPIOs for MOSI PA7, MISO(not needed), SCK PA1, CS PA4
 	// PA1->AF0 0x0 and PA7->AF0 0x0 as AF
 	GPIOA->MODER |= GPIO_MODER_MODE1_1;
 	GPIOA->MODER &= ~GPIO_MODER_MODE1_0;
@@ -21,7 +27,7 @@ void SpiInit(void){
 	GPIOA->MODER &= ~GPIO_MODER_MODE4_1;
 	GPIOA->OTYPER &= ~GPIO_OTYPER_OT4;
 	
-	// TODO: Configure CR1 register
+	// Configure CR1 register
 	
 	// Data bit ordering MSB
 	SPI1->CR1 &= ~SPI_CR1_LSBFIRST;
@@ -37,7 +43,7 @@ void SpiInit(void){
 	SPI1->CR1 |= SPI_CR1_MSTR;
 	// Software slave mangement enabled (internal slave select NSS disabled)
 	SPI1->CR1 |= SPI_CR1_SSM | SPI_CR1_SSI;
-	// TODO: Configure CR2 register
+	// Configure CR2 register
 	
 	// Data frame size 16-bit
 	SPI1->CR2 |= (SPI_CR2_DS_0 | SPI_CR2_DS_1 | SPI_CR2_DS_2 | SPI_CR2_DS_3);
@@ -85,15 +91,17 @@ void SpiMax7219Init(void){
 	SpiSendFrame((0xCU << 8) | 0x1U); // Shutdown register: 1 = Normal Operation (Wake up)
 
 	// --- Clear Initial Data ---
+	
+	SpiMax7219MatrixClear();
+	
+}
 
-	SpiSendFrame((0x1U << 8) | 0x0U); // Set digit 0 (Writes 0x0F to the segment register)
-	SpiSendFrame((0x2U << 8) | 0x0U); // Set digit 1
-	SpiSendFrame((0x3U << 8) | 0x0U); // Set digit 2
-	SpiSendFrame((0x4U << 8) | 0x0U); // Set digit 3
-	SpiSendFrame((0x5U << 8) | 0x0U); // Set digit 4
-	SpiSendFrame((0x6U << 8) | 0x0U); // Set digit 5
-	SpiSendFrame((0x7U << 8) | 0x0U); // Set digit 6
-	SpiSendFrame((0x8U << 8) | 0x0U); // Set digit 7
+static void SpiMax7219MatrixClear(void){
+	
+	// Loop through all 8 digits and clear them
+	for(uint8_t i = 1; i <= 8; i++){
+			SpiSendFrame(((uint16_t)i << 8) | 0x00U);
+	}
 }
 
 /**
@@ -101,36 +109,86 @@ void SpiMax7219Init(void){
  *        Only clears the previous digit when wrapping to a new column.
  */
 void SpiMax7219DrawPattern(void){
-    static uint8_t current_digit = 0; // Digits 0 to 7
-    static uint8_t current_bit   = 0; // Bit positions 0 to 7
+	if(PatternSwitch == 0){
+		SpiMax7219PatternMovingDot();
+	}
 
-    // 1. If we are starting a new digit, clear the PREVIOUS digit row.
-    // (On the very first run, this safely clears Digit 7 which is already blank)
-    if (current_bit == 0) {
-        // Calculate previous digit, wrapping 0 back to 7
-        uint8_t prev_digit = (current_digit == 0) ? 7 : (current_digit - 1);
-        uint8_t prev_reg_address = prev_digit + 1;
-        
-        SpiSendFrame(((uint16_t)prev_reg_address << 8) | 0x00U);
-    }
+	else{
+		SpiMax7219PatternShuffle();
+	}
+}
 
-    // 2. Turn ON the active LED (automatically clears previous bits on the SAME digit)
-    uint8_t reg_address = current_digit + 1; 
-    uint8_t bitmask     = (1U << current_bit);
+void SpiMax7219SwitchPattern(void){
+	
+	// Toggle the state
+	PatternSwitch = !PatternSwitch;
+	
+	// Clear the display using the correct logic for the new mode
+	SpiMax7219MatrixClear();
+}
 
-    SpiSendFrame(((uint16_t)reg_address << 8) | bitmask);
+static void SpiMax7219PatternShuffle(void){
+	static uint16_t counter = 48;
 
-    // 3. Advance to the next position for the NEXT press
-    current_bit++;
-    
-    // When bit wraps past 7, reset bit and advance digit
-    if (current_bit > 7) {
-        current_bit = 0;
-        current_digit++;
-        
-        // When digit wraps past 7, restart from (Dig 0, Bit 0)
-        if (current_digit > 7) {
-            current_digit = 0;
-        }
-    }
+	for (uint8_t row = 0; row < 8; row++) {
+			uint8_t address = row + 1; 
+			
+			// Fetch the data from the array
+			uint8_t row_data = font8x8_basic[counter][row];
+			
+			// Reverse the bits to fix the hardware mirror effect
+			row_data = ReverseByte(row_data); 
+			
+			// Send the fixed frame
+			SpiSendFrame((address << 8) | row_data);
+	}
+
+	if (counter == 90) {
+			counter = 48; 
+	} else {
+			counter++;
+	}
+}
+
+static void SpiMax7219PatternMovingDot(void){
+	static uint8_t current_digit = 0; // Digits 0 to 7
+	static uint8_t current_bit   = 0; // Bit positions 0 to 7
+
+	//  If we are starting a new digit, clear the PREVIOUS digit row.
+	if (current_bit == 0) {
+		// Calculate previous digit, wrapping 0 back to 7
+		uint8_t prev_digit = (current_digit == 0) ? 7 : (current_digit - 1);
+		uint8_t prev_reg_address = prev_digit + 1;
+		
+		// Clear the LED row
+		SpiSendFrame(((uint16_t)prev_reg_address << 8) | 0x00U);
+	}
+
+	// Turn ON the active LED (automatically clears previous bits on the SAME digit)
+	uint8_t reg_address = current_digit + 1; 
+	uint8_t bitmask     = (1U << current_bit);
+
+	SpiSendFrame(((uint16_t)reg_address << 8) | bitmask);
+
+	// Advance to the next position for the NEXT press
+	current_bit++;
+	
+	// When bit wraps past 7, reset bit and advance digit
+	if (current_bit > 7) {
+		current_bit = 0;
+		current_digit++;
+		
+		// When digit wraps past 7, restart from (Dig 0, Bit 0)
+		if (current_digit > 7) {
+				current_digit = 0;
+		}
+	}
+}
+
+// Fast 8-bit reversal algorithm
+static uint8_t ReverseByte(uint8_t b) {
+    b = (b & 0xF0) >> 4 | (b & 0x0F) << 4; // Swap nibbles
+    b = (b & 0xCC) >> 2 | (b & 0x33) << 2; // Swap pairs
+    b = (b & 0xAA) >> 1 | (b & 0x55) << 1; // Swap adjacent bits
+    return b;
 }

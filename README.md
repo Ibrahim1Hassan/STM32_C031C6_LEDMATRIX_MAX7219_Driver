@@ -53,13 +53,11 @@ All peripheral drivers—including SPI, UART (for tracing), and BSP (Board Suppo
 Upon resetting the board, the display will  begin cycling through numbers, letters, and symbols. 
 
 *   **Press User Button B1** to switch to the "Moving Dot" pattern. In this mode, a single LED advances across the 8x8 matrix grid.
-<br>
-<img width="300" alt="Moving Dot Pattern" src="https://github.com/user-attachments/assets/bd5fb5ab-fc03-460b-ad91-e8542eaa5b63" />
+<img width="480" height="640" alt="photo_2026-07-30_21-15-24" src="https://github.com/user-attachments/assets/d1d4af62-3b9d-4107-aa31-48507b8f368e" />
 
 *   **Press B1 again** to toggle back to the alphanumeric pattern.
-<br>
-<img width="300" alt="Alphanumeric Pattern" src="https://github.com/user-attachments/assets/0157116c-0a3f-4ac7-a6f3-8df7af08872c" />
----
+<img width="480" height="640" alt="photo_2026-07-30_21-13-35" src="https://github.com/user-attachments/assets/5c4607d5-00f1-4f80-983c-11ff627c1ee1" />
+
 
 ## 🐞 Debugging & Extras
 

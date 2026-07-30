@@ -78,7 +78,7 @@ The project includes a non-intrusive UART driver utilizing a dedicated DMA chann
 **To use the API in your code:**
 ```c
 UART2_PrintDma("LED Green ON\n\r");
-
+```
 ---
 
 ## 📄 License & Usage

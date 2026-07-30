@@ -12,7 +12,7 @@ All peripheral drivers—including SPI, UART (for tracing), and BSP (Board Suppo
 
 ### Hardware Used
 *   **MCU:** STM32C031C6 (typically on a Nucleo board featuring User Button B1 and Reset Button B2).
-<img width="997" height="627" alt="image" src="https://github.com/user-attachments/assets/e43d5b70-9e2d-4fbd-abf1-c752cfa9eb58" />
+<img width="660" height="420" alt="image" src="https://github.com/user-attachments/assets/e43d5b70-9e2d-4fbd-abf1-c752cfa9eb58" />
 
 *   **Display Module:** MAX7219 Dot Matrix Module V02 (by Elegoo). 
     *   *Note: While this example targets an 8x8 matrix, the driver is flexible and can be adapted to drive 7-segment displays or custom LED arrangements powered by the MAX7219.*
@@ -26,7 +26,7 @@ All peripheral drivers—including SPI, UART (for tracing), and BSP (Board Suppo
   * SCLK->PA1
   * CS->PA4
   * MOSI->PA7
-<img width="1280" height="960" alt="image" src="https://github.com/user-attachments/assets/8f480ee9-1b8f-490a-a3ae-4895ffd42c27" />
+<img width="980" height="780" alt="image" src="https://github.com/user-attachments/assets/8f480ee9-1b8f-490a-a3ae-4895ffd42c27" />
 
 ### Software & Toolchain
 *   **IDE:** Keil uVision 5 (Non-Commercial Edition)
@@ -53,10 +53,11 @@ All peripheral drivers—including SPI, UART (for tracing), and BSP (Board Suppo
 Upon resetting the board, the display will  begin cycling through numbers, letters, and symbols. 
 
 *   **Press User Button B1** to switch to the "Moving Dot" pattern. In this mode, a single LED advances across the 8x8 matrix grid.
-  <img width="720" height="1280" alt="image" src="https://github.com/user-attachments/assets/f6c2fb38-a855-4012-9e7c-606832a87fe3" />
+<img width="720" height="1280" alt="ezgif-7775b5553f97e8f6" src="https://github.com/user-attachments/assets/bd5fb5ab-fc03-460b-ad91-e8542eaa5b63" />
+
 
 *   **Press B1 again** to  toggle back to the alphanumeric pattern.
-<img width="720" height="1280" alt="image" src="https://github.com/user-attachments/assets/be9b9e7e-3a76-466b-9a52-a3936b92a041" />
+<img width="720" height="1280" alt="ezgif-7167beaba9a8d2c3" src="https://github.com/user-attachments/assets/0157116c-0a3f-4ac7-a6f3-8df7af08872c" />
 
 ---
 
